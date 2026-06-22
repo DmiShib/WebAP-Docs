@@ -1,0 +1,1 @@
+import{_ as t,o as a,c as s,a2 as o}from"./chunks/framework.DnrXFDHb.js";const m=JSON.parse('{"title":"FAQ & Troubleshooting","description":"","frontmatter":{},"headers":[],"relativePath":"faq.md","filePath":"faq.md"}'),i={name:"faq.md"};function r(l,e,n,c,d,u){return a(),s("div",null,[...e[0]||(e[0]=[o("",16)])])}const p=t(i,[["render",r]]);export{m as __pageData,p as default};

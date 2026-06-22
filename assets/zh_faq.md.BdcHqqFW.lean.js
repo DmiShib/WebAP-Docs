@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as s,a2 as o}from"./chunks/framework.DnrXFDHb.js";const p=JSON.parse('{"title":"FAQ & 故障排除","description":"","frontmatter":{},"headers":[],"relativePath":"zh/faq.md","filePath":"zh/faq.md"}'),i={name:"zh/faq.md"};function l(c,a,r,d,n,m){return t(),s("div",null,[...a[0]||(a[0]=[o("",16)])])}const h=e(i,[["render",l]]);export{p as __pageData,h as default};

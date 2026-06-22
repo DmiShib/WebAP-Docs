@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>WebAdaptivePerformance</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+
+<body class="dark">
+
+    <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas"></canvas>
+        <div id="unity-fullscreen-button" style="display: none;" title="Enter Fullscreen"></div>
+    </div>
+
+    <div id="loading-cover">
+        <div id="loading-content">
+            <div class="logo-container">
+                <img src="TemplateData/logo.png" id="unity-logo" alt="Logo">
+            </div>
+
+            <div class="hero-subtitle">
+                <h1>THE ULTIMATE OPTIMIZATION ENGINE</h1>
+                <p>Dual-mode Resolution Scaling • Zero-GC Architecture • Dynamic Bottleneck Detection</p>
+            </div>
+
+            <div id="spinner"></div>
+
+            <div id="unity-progress-bar-empty" style="display: none;">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+
+            <div class="footer-text">
+                Developed by <a href="https://dmitryshibanov.com/" target="_blank">Dmitry S.</a>, <a
+                    href="https://grindset.space/" target="_blank">Grindset Studios</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="orientation-overlay">
+        <div class="orientation-content">
+            <img src="TemplateData/rotate.svg" alt="Rotate" class="rotate-icon">
+            <h2>PLEASE ROTATE YOUR DEVICE</h2>
+            <p>Landscape mode is required for the best experience.</p>
+        </div>
+    </div>
+
+    <script>
+        const buildUrl = "Build";
+        const loaderUrl = buildUrl + "/WebAP_URP_6.4_PROD_04.loader.js";
+
+        const config = {
+            dataUrl: buildUrl + "/WebAP_URP_6.4_PROD_04.data.unityweb",
+            frameworkUrl: buildUrl + "/WebAP_URP_6.4_PROD_04.framework.js.unityweb",
+            codeUrl: buildUrl + "/WebAP_URP_6.4_PROD_04.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Grindset Studios",
+            productName: "WebAdaptivePerformance",
+            productVersion: "0.1.0",
+        };
+
+        const container = document.querySelector("#unity-container");
+        const canvas = document.querySelector("#unity-canvas");
+        const loadingCover = document.querySelector("#loading-cover");
+        const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+        const progressBarFull = document.querySelector("#unity-progress-bar-full");
+        const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+        const spinner = document.querySelector("#spinner");
+
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            container.className = "unity-mobile";
+        }
+
+        // Apply native DPR to all devices for crisp rendering (WebAP scales it down if needed)
+        config.devicePixelRatio = window.devicePixelRatio || 1;
+
+        const script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                spinner.style.display = "none";
+                progressBarEmpty.style.display = "";
+                progressBarFull.style.width = `${100 * progress}%`;
+            }).then((unityInstance) => {
+                loadingCover.classList.add("hidden");
+
+                fullscreenButton.style.display = "block";
+                fullscreenButton.onclick = () => {
+                    if (!document.fullscreenElement) {
+                        container.requestFullscreen().catch(err => {
+                            console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
+                        });
+                    } else {
+                        document.exitFullscreen();
+                    }
+                };
+
+                document.addEventListener('fullscreenchange', () => {
+                    if (document.fullscreenElement) {
+                        fullscreenButton.classList.add('is-fullscreen');
+                        fullscreenButton.title = "Exit Fullscreen";
+                    } else {
+                        fullscreenButton.classList.remove('is-fullscreen');
+                        fullscreenButton.title = "Enter Fullscreen";
+                    }
+                });
+
+                setTimeout(() => { loadingCover.style.display = "none"; }, 1000);
+            }).catch((message) => {
+                alert(message);
+            });
+        };
+
+        document.body.appendChild(script);
+
+        document.addEventListener("pointerdown", () => {
+            if (document.activeElement !== canvas) {
+                canvas.focus();
+            }
+        });
+    </script>
+</body>
+
+</html>

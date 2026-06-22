@@ -1,0 +1,1 @@
+import{_ as a,o as t,c as o,a2 as s}from"./chunks/framework.DnrXFDHb.js";const p=JSON.parse('{"title":"FAQ 및 문제 해결","description":"","frontmatter":{},"headers":[],"relativePath":"ko/faq.md","filePath":"ko/faq.md"}'),l={name:"ko/faq.md"};function c(i,e,r,d,n,m){return t(),o("div",null,[...e[0]||(e[0]=[s("",16)])])}const h=a(l,[["render",c]]);export{p as __pageData,h as default};
